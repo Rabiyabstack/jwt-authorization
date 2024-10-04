@@ -1,26 +1,28 @@
-import { useEffect, useState } from "react";
+
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../store/authSlice"; 
 import { useCookies } from "react-cookie";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const Home = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [cookies, removeCookie] = useCookies([]);
-  const [username, setUsername] = useState("");
+  const { user } = useSelector((state) => state.auth); 
 
-  const Logout = () => {
+  const handleLogout = () => {
     removeCookie("token");
+    dispatch(logout());
     navigate("/signup");
   };
+
   return (
     <>
       <div className="home_page">
-        <h4>
-          {" "}
-          Welcome <span>{username}</span>
-        </h4>
-        <button onClick={Logout}>LOGOUT</button>
+        <h4> Welcome <span>{user ? user.username : 'Guest'}</span> </h4>
+        <button onClick={handleLogout}>LOGOUT</button>
       </div>
       <ToastContainer />
     </>
