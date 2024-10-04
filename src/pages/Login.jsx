@@ -43,8 +43,11 @@ const Login = () => {
                 handleSuccess(message);
                 setTimeout(() => {
                     navigate("/home"); 
+                    console.log("navigation successful");
+
                 }, 1000);
             } else {
+                console.log("error");
                 handleError(message);
             }
         } catch (error) {
